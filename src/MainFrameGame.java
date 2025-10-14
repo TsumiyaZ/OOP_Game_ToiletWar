@@ -6,11 +6,10 @@ class MainFrameGame extends JFrame {
     }
 
     private void setFrame() {
-        setSize(1000, 800);
+        setSize(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(null);
+        setResizable(false);
     }
-
-
 }
