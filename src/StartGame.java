@@ -1,6 +1,6 @@
 public class StartGame {
     public static void main(String[] args) {
-        Menu frame = new Menu();
+        Frame_Menu frame = new Frame_Menu();
         frame.setVisible(true);
     }
 }

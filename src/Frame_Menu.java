@@ -1,8 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
-class Menu extends JFrame {
-    public Menu() {
+class Frame_Menu extends JFrame {
+    Mode Frame_Mode = new Mode(this);
+
+    public Frame_Menu() {
         setFrame();
         setComponent();
     }
@@ -53,8 +55,11 @@ class Menu extends JFrame {
         centerPanel.add(box); // เอากล่องไปไว้ตรงกลาง
 
         // Action
-        btnStart.addActionListener(e -> JOptionPane.showMessageDialog(this, "Start Game!"));
-        btnExit.addActionListener(e -> dispose());
+        btnStart.addActionListener(e -> {
+            setVisible(false);
+            Frame_Mode.setVisible(true);
+        });
+        btnExit.addActionListener(e -> System.exit(0));
     }
 
     // ปุ่มสไตล์เดียวกัน
