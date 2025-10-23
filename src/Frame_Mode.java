@@ -5,7 +5,7 @@ import java.awt.event.MouseEvent;
 
 public class Frame_Mode extends JFrame {
     private Frame_Menu Frame_menu;
-    private Frame_WaitPlayer Frame_wait = new Frame_WaitPlayer(this);
+    private Frame_CreateJoin Frame_create = new Frame_CreateJoin(this);
 
     public Frame_Mode(Frame_Menu frame) {
         this.Frame_menu = frame;
@@ -14,7 +14,7 @@ public class Frame_Mode extends JFrame {
     }
 
     private void setFrame() {
-        setTitle("Toilet War Game");
+        setTitle(Config.NAME_GAME);
         setSize(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -56,7 +56,7 @@ public class Frame_Mode extends JFrame {
 
         btn_Multiplayer.addActionListener(e -> {
             setVisible(false);
-            Frame_wait.setVisible(true);
+            Frame_create.setVisible(true);
         });
 
 

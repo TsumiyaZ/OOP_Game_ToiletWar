@@ -29,7 +29,7 @@ class Frame_Menu extends JFrame {
         Box box = Box.createVerticalBox();
 
         // ชื่อเกม
-        JLabel title = new JLabel("Toilet War Game");
+        JLabel title = new JLabel(Config.NAME_GAME);
         title.setFont(new Font("Segoe UI", Font.BOLD, 42));
         title.setForeground(new Color(255, 255, 255));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
