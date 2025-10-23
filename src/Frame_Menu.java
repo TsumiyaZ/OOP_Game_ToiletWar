@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 class Frame_Menu extends JFrame {
-    Mode Frame_Mode = new Mode(this);
+    private Frame_Mode Frame_Mode = new Frame_Mode(this);
 
     public Frame_Menu() {
         setFrame();

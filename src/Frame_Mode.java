@@ -3,10 +3,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class Mode extends JFrame {
+public class Frame_Mode extends JFrame {
     private Frame_Menu Frame_menu;
+    private Frame_WaitPlayer Frame_wait = new Frame_WaitPlayer(this);
 
-    public Mode(Frame_Menu frame) {
+    public Frame_Mode(Frame_Menu frame) {
         this.Frame_menu = frame;
         setFrame();
         setComponent();
@@ -52,6 +53,13 @@ public class Mode extends JFrame {
             setVisible(false);
             Frame_menu.setVisible(true);
         });
+
+        btn_Multiplayer.addActionListener(e -> {
+            setVisible(false);
+            Frame_wait.setVisible(true);
+        });
+
+
 
     }
 
