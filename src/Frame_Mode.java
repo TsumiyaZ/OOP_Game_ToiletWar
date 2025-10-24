@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 
 public class Frame_Mode extends JFrame {
     private Frame_Menu Frame_menu;
-    private Frame_CreateJoin Frame_create = new Frame_CreateJoin(this);
 
     public Frame_Mode(Frame_Menu frame) {
         this.Frame_menu = frame;
@@ -53,14 +52,7 @@ public class Frame_Mode extends JFrame {
             setVisible(false);
             Frame_menu.setVisible(true);
         });
-
-        btn_Multiplayer.addActionListener(e -> {
-            setVisible(false);
-            Frame_create.setVisible(true);
-        });
-
-
-
+        
     }
 
     private JButton createStyledButton(String text) {
