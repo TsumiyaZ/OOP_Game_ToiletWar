@@ -52,7 +52,6 @@ public class Frame_Mode extends JFrame {
             setVisible(false);
             Frame_menu.setVisible(true);
         });
-        
     }
 
     private JButton createStyledButton(String text) {
