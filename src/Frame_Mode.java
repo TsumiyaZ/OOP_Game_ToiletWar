@@ -48,6 +48,12 @@ public class Frame_Mode extends JFrame {
 
         centerPanel.add(box);
 
+        btn_Multiplayer.addActionListener(e -> {
+            Frame_WaitPlayer frame_wait = new Frame_WaitPlayer(this);
+            frame_wait.setVisible(true);
+            setVisible(false);
+        });
+
         btn_back.addActionListener(e -> {
             setVisible(false);
             Frame_menu.setVisible(true);

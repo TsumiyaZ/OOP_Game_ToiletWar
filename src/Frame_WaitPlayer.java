@@ -2,7 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Frame_WaitPlayer extends JFrame {
-    public Frame_WaitPlayer() {
+    Frame_Mode FrameMode;
+
+    public Frame_WaitPlayer(Frame_Mode FrameMode) {
+        this.FrameMode = FrameMode;
         setFrame();
     }
 
