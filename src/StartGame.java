@@ -1,6 +1,6 @@
 public class StartGame {
     public static void main(String[] args) {
-        GameWindow frame = new GameWindow();
+        windowTitle frame = new windowTitle();
         frame.setVisible(true);
     }
 }
