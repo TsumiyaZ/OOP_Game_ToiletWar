@@ -21,8 +21,8 @@ public class selectSkin extends JFrame{
         setResizable(false);
         setLayout(new GridLayout(1, Config.COUNT_SKIN));
 
-        loadSkinPanel();
         loadPicture();
+        loadSkinPanel();
     }
 
     private void loadSkinPanel() {
@@ -60,38 +60,103 @@ public class selectSkin extends JFrame{
 
     // วาด gradient + ป้ายของช่องนั้นๆ
     private JPanel createSkinPanel(Color top, Color bottom, int index) {
-        return new JPanel() {
+        // พาเนลพื้นหลัง gradient
+        JPanel panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
-
-                // gradient
                 GradientPaint gp = new GradientPaint(0, 0, top, 0, getHeight(), bottom);
                 g2d.setPaint(gp);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
-
-                // วาดป้าย p[index] ตรงกลางล่าง (คงสัดส่วน)
-                Image plate = plaque[index];
-                if (plate != null) {
-                    g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                            RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR); // ให้พิกเซลคม
-
-                    int ow = plate.getWidth(this);
-                    int oh = plate.getHeight(this);
-
-                    // 🔹 ปรับขนาดใหญ่ขึ้น (จาก 70% → 85% และ scale 1.4 เท่า)
-                    double scale = 2.0; // เพิ่มขนาดได้ที่นี่
-                    int newW = (int) (getWidth() * 0.85 * scale);
-                    int newH = (int) ((double) oh / ow * newW);
-
-                    // 🔹 ให้อยู่ตรงกลางพอดี
-                    int x = (getWidth() - newW) / 2;
-                    int y = getHeight() - newH - 10; // ห่างจากขอบล่างเล็กน้อย
-
-                    g2d.drawImage(plate, x - 22, y + 150, newW, newH, this);
-                }
             }
         };
+        panel.setLayout(null); // จัดตำแหน่ง JLabel เองให้อยู่กลางล่าง
+
+        // ---- JLabel ป้าย ----
+        Image plateImg = plaque[index];
+        JLabel plate = new JLabel();
+        plate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        plate.addMouseListener(new MouseAdapter() {
+            ImageIcon iconNormal;
+            int w, h;
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // ถ้ายังไม่ได้เก็บ icon เดิม ให้เก็บไว้ก่อน
+                if (iconNormal == null) {
+                    iconNormal = (ImageIcon) plate.getIcon();
+                    w = iconNormal.getIconWidth();
+                    h = iconNormal.getIconHeight();
+                }
+
+                // ขยาย 10%
+                double scale = 1.1;
+                int newW = (int) (w * scale);
+                int newH = (int) (h * scale);
+
+                // ตั้ง icon ใหม่ที่ขยายแล้ว
+                Image bigger = iconNormal.getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+                plate.setIcon(new ImageIcon(bigger));
+
+                // ยกขึ้นเล็กน้อย
+                movePlate(plate, -5, -5, newW, newH);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // กลับสู่ขนาดเดิม
+                plate.setIcon(iconNormal);
+                movePlate(plate, 5, 5, w, h);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                selectMode select_Mode = new selectMode();
+                System.out.println("Clicked plate index = " + index);
+                setVisible(false);
+                select_Mode.setVisible(true);
+            }
+
+            // ฟังก์ชันย่อย อ่านง่ายขึ้นมาก
+            private void movePlate(JLabel p, int dx, int dy, int width, int height) {
+                p.setBounds(p.getX() + dx, p.getY() + dy, width, height);
+            }
+        });
+
+
+
+        panel.add(plate);
+
+        // วาง/สเกลป้ายให้พอดีกับขนาด panel ทุกครั้งที่ขนาดเปลี่ยน
+        panel.addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override public void componentResized(java.awt.event.ComponentEvent e) {
+                if (plateImg == null) return;
+
+                int pw = panel.getWidth();
+                int ph = panel.getHeight();
+
+                // ความกว้างป้าย ~ 70% ของช่อง (ปรับได้)
+                int newW = (int) (pw * 0.75);
+
+                int ow = plateImg.getWidth(null);
+                int oh = plateImg.getHeight(null);
+
+                int newH = (int) ((double) oh / ow * newW);
+
+                // จัดให้อยู่ "กลางล่าง" เว้นขอบล่าง 14 px
+                int x = (pw - newW) / 2;
+                int y = ph - newH - 50;
+
+                plate.setBounds(x, y, newW, newH);
+                // สร้างไอคอนขนาดใหม่
+                plate.setIcon(new ImageIcon(plateImg.getScaledInstance(newW, newH, Image.SCALE_SMOOTH)));
+                plate.revalidate();
+                plate.repaint();
+            }
+        });
+
+        return panel;
     }
 }
