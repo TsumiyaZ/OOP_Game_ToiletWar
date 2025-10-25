@@ -6,6 +6,7 @@ import java.io.File;
 
 public class windowTitle extends JFrame {
     private Image backgroundImage;
+    private Image textStart;
 
     public windowTitle() {
         setTitle(Config.NAME_GAME + " - Title");
@@ -20,7 +21,7 @@ public class windowTitle extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    GameWindow frame = new GameWindow();
+                    selectSkin frame = new selectSkin();
                     System.out.println("Welcome to Game");
                     setVisible(false);
                     frame.setVisible(true);
@@ -32,17 +33,43 @@ public class windowTitle extends JFrame {
 
     private void loadBackground() {
         String path = System.getProperty("user.dir") + File.separator +
-                "assets" + File.separator + "bg" + File.separator + "Page1.png";
+                "assets" + File.separator + "bg" + File.separator + Config.background;
         backgroundImage = new ImageIcon(path).getImage();
 
+        String path_text = System.getProperty("user.dir") + File.separator +
+                "assets" + File.separator + "obj" + File.separator + Config.TEXT_SPACE_START;
+        textStart = new ImageIcon(path_text).getImage();
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
+        Graphics2D g2d = (Graphics2D) g;
+
         if (backgroundImage != null) {
-            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+            g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
+
+        if (textStart != null) {
+            int textWidth = textStart.getWidth(this);
+            int textHeight = textStart.getHeight(this);
+
+            System.out.println("textWidth : " + textWidth);
+            System.out.println("textHeight : " + textHeight);
+
+            System.out.println(getWidth());
+            System.out.println(getHeight());
+
+            // คำนวณตำแหน่งให้อยู่ "กลางล่าง" ของจอ
+            int x = (getWidth() - textWidth) / 2;
+            int y = getHeight() - textHeight - 60; // เว้นจากขอบล่างนิดหน่อย (~60px)
+
+            // ✅ ตั้งค่าความโปร่งใส (0.0 = ใสหมด, 1.0 = ทึบ)
+            float alpha = 0.6f; // จางประมาณ 60%
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+
+            g2d.drawImage(textStart, x, y, this);
         }
     }
 }
