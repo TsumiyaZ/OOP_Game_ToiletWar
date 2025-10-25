@@ -2,8 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 
 class Frame_Menu extends JFrame {
+    ChooseSkin frameChooseSkin;
 
-    public Frame_Menu() {
+    public Frame_Menu(ChooseSkin ChooseSkin) {
+        this.frameChooseSkin = ChooseSkin;
         setFrame();
         setComponent();
     }
@@ -42,7 +44,7 @@ class Frame_Menu extends JFrame {
         JButton btnSingle = createStyledButton("Play Single");
         JButton btnHost = createStyledButton("Host");
         JButton btnJoin = createStyledButton("Join");
-        JButton btnExit = createStyledButton("Exit");
+        JButton btnBack = createStyledButton("Back to Choose Skin");
 
         // จัด layout
         box.add(title);
@@ -55,11 +57,14 @@ class Frame_Menu extends JFrame {
         box.add(Box.createRigidArea(new Dimension(0, 10)));
         box.add(btnJoin);
         box.add(Box.createRigidArea(new Dimension(0, 10)));
-        box.add(btnExit);
+        box.add(btnBack);
 
         centerPanel.add(box); // เอากล่องไปไว้ตรงกลาง
 
-        btnExit.addActionListener(e -> System.exit(0));
+        btnBack.addActionListener(e -> {
+            setVisible(false);
+            frameChooseSkin.setVisible(true);
+        });
 
         btnHost.addActionListener(e -> {
 
