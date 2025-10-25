@@ -20,6 +20,12 @@ public class Config {
             new Color(255, 105, 180)
     };
 
+    public static final String btn_Mode[] = {
+            "SinglePlayer.png",
+            "Multiplayer.png",
+            "HowPlay.png"
+    };
+
     public static final String background = "Background.png";
     public static final String bg_Mode = "Background_Mode.png";
     public static final String TEXT_SPACE_START = "SpaceToStart.png";
