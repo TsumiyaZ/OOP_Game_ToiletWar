@@ -43,32 +43,39 @@ public class selectMode extends JFrame {
                 g.drawImage(bg, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        panel.setLayout(new GridBagLayout());
 
+        // ใช้ GridBagLayout ให้อยู่กลางทั้งแนวตั้งและแนวนอน
+        panel.setLayout(new GridBagLayout());
+        getContentPane().add(panel);
+
+        // สร้างกล่องเรียงปุ่มในแนวตั้ง
         Box box = Box.createVerticalBox();
 
-        // 🔹 ลดขนาดปุ่มลง (เช่น 200x70)
-        JLabel btn_single  = new JLabel(scale(btn_Mode[0], 300, 70));
-        JLabel btn_Multi   = new JLabel(scale(btn_Mode[1], 300, 70));
-        JLabel btn_HowPlay = new JLabel(scale(btn_Mode[2], 300, 70));
+        int w = 350;
+        int h = 100;
+
+        JLabel btn_single  = new JLabel(scale(btn_Mode[0], w, h));
+        JLabel btn_multi   = new JLabel(scale(btn_Mode[1], w, h));
+        JLabel btn_how     = new JLabel(scale(btn_Mode[2], w, h));
 
         btn_single.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btn_Multi.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btn_HowPlay.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn_multi.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn_how.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         btn_single.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btn_Multi.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btn_HowPlay.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btn_multi.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btn_how.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         box.add(btn_single);
-        box.add(Box.createRigidArea(new Dimension(0, 10)));
-        box.add(btn_Multi);
-        box.add(Box.createRigidArea(new Dimension(0, 10)));
-        box.add(btn_HowPlay);
+        box.add(Box.createRigidArea(new Dimension(0, 30))); // เว้นระยะ
+        box.add(btn_multi);
+        box.add(Box.createRigidArea(new Dimension(0, 30)));
+        box.add(btn_how);
 
         panel.add(box);
-        getContentPane().add(panel, BorderLayout.CENTER);
     }
+
+
 
     // ตัวช่วยสเกลภาพ (ถ้าต้องการ)
     private static ImageIcon scale(ImageIcon icon, int w, int h) {
