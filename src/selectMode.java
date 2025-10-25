@@ -6,7 +6,7 @@ import java.io.File;
 
 public class selectMode extends JFrame {
     Image bg;
-    ImageIcon[] btn_Mode = new ImageIcon[Config.btn_Mode.length]; // ใช้ ImageIcon ตรง ๆ จะง่ายกว่า
+    ImageIcon[] button_Mode = new ImageIcon[Config.btn_Mode.length]; // ใช้ ImageIcon ตรง ๆ จะง่ายกว่า
 
     public selectMode() {
         setFrame();
@@ -33,7 +33,8 @@ public class selectMode extends JFrame {
         for (int i = 0; i < Config.btn_Mode.length; i++) {
             String path_mode = System.getProperty("user.dir") + File.separator +
                     "assets" + File.separator + "obj" + File.separator + Config.btn_Mode[i];
-            btn_Mode[i] = new ImageIcon(path_mode);
+            button_Mode[i] = new ImageIcon(path_mode);
+            System.out.println(path_mode);
         }
     }
 
@@ -56,9 +57,9 @@ public class selectMode extends JFrame {
         int width = 350;
         int height = 100;
 
-        JLabel btn_single  = new JLabel(scale(btn_Mode[0], width, height));
-        JLabel btn_multi   = new JLabel(scale(btn_Mode[1], width, height));
-        JLabel btn_how     = new JLabel(scale(btn_Mode[2], width, height));
+        JLabel btn_single  = new JLabel(scale(button_Mode[0], width, height));
+        JLabel btn_multi   = new JLabel(scale(button_Mode[1], width, height));
+        JLabel btn_how     = new JLabel(scale(button_Mode[2], width, height));
 
         btn_single.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btn_multi.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -86,14 +87,14 @@ public class selectMode extends JFrame {
                 int newW = (int) (w * scale);
                 int newH = (int) (h * scale);
 
-                Image bigger = btn_Mode[0].getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+                Image bigger = button_Mode[0].getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
                 btn_single.setIcon(new ImageIcon(bigger));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 // กลับสู่ขนาดเดิม
-                btn_single.setIcon(scale(btn_Mode[0], w, h));
+                btn_single.setIcon(scale(button_Mode[0], w, h));
             }
         });
 
@@ -107,14 +108,14 @@ public class selectMode extends JFrame {
                 int newW = (int) (w * scale);
                 int newH = (int) (h * scale);
 
-                Image bigger = btn_Mode[0].getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+                Image bigger = button_Mode[1].getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
                 btn_multi.setIcon(new ImageIcon(bigger));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 // กลับสู่ขนาดเดิม
-                btn_multi.setIcon(scale(btn_Mode[0], w, h));
+                btn_multi.setIcon(scale(button_Mode[1], w, h));
             }
         });
 
@@ -128,19 +129,17 @@ public class selectMode extends JFrame {
                 int newW = (int) (w * scale);
                 int newH = (int) (h * scale);
 
-                Image bigger = btn_Mode[0].getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+                Image bigger = button_Mode[2].getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
                 btn_how.setIcon(new ImageIcon(bigger));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 // กลับสู่ขนาดเดิม
-                btn_how.setIcon(scale(btn_Mode[0], w, h));
+                btn_how.setIcon(scale(button_Mode[2], w, h));
             }
         });
     }
-
-
 
     // ตัวช่วยสเกลภาพ (ถ้าต้องการ)
     private static ImageIcon scale(ImageIcon icon, int w, int h) {
