@@ -38,7 +38,6 @@ public class Frame_Mode extends JFrame {
         JButton btn_Multiplayer = createStyledButton("Play Multiplayer");
         JButton btn_back = createStyledButton("Back to Menu");
 
-
         box.add(title);
         box.add(btn_Single);
         box.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -48,17 +47,45 @@ public class Frame_Mode extends JFrame {
 
         centerPanel.add(box);
 
+        // =======================
+        // [ADDED BY GPT] เริ่มจากตรงนี้ ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+        // =======================
         btn_Multiplayer.addActionListener(e -> {
-            Frame_WaitPlayer frame_wait = new Frame_WaitPlayer(this);
-            frame_wait.setVisible(true);
-            setVisible(false);
+            // [ADDED BY GPT] แสดงหน้าต่างให้ผู้เล่นเลือกว่าจะ "สร้างห้อง" หรือ "เข้าร่วมห้อง"
+            String[] options = {"Create Room", "Join Room"};
+            int choice = JOptionPane.showOptionDialog(
+                this,
+                "Select how you want to play:",
+                "Multiplayer Mode",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+            );
+
+            if (choice == 0) {
+                // [ADDED BY GPT] ถ้าเลือก Create Room → เป็น Host
+                Frame_WaitPlayer frame_wait = new Frame_WaitPlayer(this, true);
+                frame_wait.setVisible(true);
+                setVisible(false);
+
+            } else if (choice == 1) {
+                // [ADDED BY GPT] ถ้าเลือก Join Room → เป็น Client
+                Frame_WaitPlayer frame_wait = new Frame_WaitPlayer(this, false);
+                frame_wait.setVisible(true);
+                setVisible(false);
+            }
         });
+        // =======================
+        // [ADDED BY GPT] จบส่วนเพิ่มใหม่ ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
+        // =======================
+
 
         btn_back.addActionListener(e -> {
             setVisible(false);
             Frame_menu.setVisible(true);
         });
-
     }
 
     private JButton createStyledButton(String text) {
