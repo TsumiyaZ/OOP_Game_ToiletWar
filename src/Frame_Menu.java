@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 
 class Frame_Menu extends JFrame {
-    private Frame_Mode Frame_Mode = new Frame_Mode(this);
 
     public Frame_Menu() {
         setFrame();
@@ -34,13 +33,15 @@ class Frame_Menu extends JFrame {
         title.setForeground(new Color(255, 255, 255));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel subtitle = new JLabel("Click Start for Play Game");
+        JLabel subtitle = new JLabel("Choose Mode");
         subtitle.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         subtitle.setForeground(new Color(180, 180, 200));
         subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // ปุ่ม
-        JButton btnStart = createStyledButton("Start Game");
+        JButton btnSingle = createStyledButton("Play Single");
+        JButton btnHost = createStyledButton("Host");
+        JButton btnJoin = createStyledButton("Join");
         JButton btnExit = createStyledButton("Exit");
 
         // จัด layout
@@ -48,18 +49,21 @@ class Frame_Menu extends JFrame {
         box.add(Box.createRigidArea(new Dimension(0, 8)));
         box.add(subtitle);
         box.add(Box.createRigidArea(new Dimension(0, 25)));
-        box.add(btnStart);
+        box.add(btnSingle);
+        box.add(Box.createRigidArea(new Dimension(0, 10)));
+        box.add(btnHost);
+        box.add(Box.createRigidArea(new Dimension(0, 10)));
+        box.add(btnJoin);
         box.add(Box.createRigidArea(new Dimension(0, 10)));
         box.add(btnExit);
 
         centerPanel.add(box); // เอากล่องไปไว้ตรงกลาง
 
-        // Action
-        btnStart.addActionListener(e -> {
-            setVisible(false);
-            Frame_Mode.setVisible(true);
-        });
         btnExit.addActionListener(e -> System.exit(0));
+
+        btnHost.addActionListener(e -> {
+
+        });
     }
 
     // ปุ่มสไตล์เดียวกัน
