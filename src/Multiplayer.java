@@ -4,11 +4,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
-public class selectMode extends JFrame {
+public class Multiplayer extends JFrame {
     Image bg;
     ImageIcon[] btn_Mode = new ImageIcon[Config.btn_Mode.length]; // ใช้ ImageIcon ตรง ๆ จะง่ายกว่า
 
-    public selectMode() {
+    public Multiplayer() {
         setFrame();
     }
 

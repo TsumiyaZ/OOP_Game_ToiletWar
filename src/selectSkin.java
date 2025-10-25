@@ -15,6 +15,7 @@ public class selectSkin extends JFrame{
     }
 
     private void setFrame() {
+        setTitle(Config.NAME_GAME + " - Select Character");
         setSize(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -124,8 +125,6 @@ public class selectSkin extends JFrame{
                 p.setBounds(p.getX() + dx, p.getY() + dy, width, height);
             }
         });
-
-
 
         panel.add(plate);
 
