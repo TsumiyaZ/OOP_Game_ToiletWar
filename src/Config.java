@@ -26,6 +26,13 @@ public class Config {
             "HowPlay.png"
     };
 
+    public static final String btn_Multiplay[] = {
+            "Host.png",
+            "Join.png",
+            "Back.png"
+    };
+
+    public static final String backgroundGame = "ToiletWar.png";
     public static final String background = "Background.png";
     public static final String bg_Mode = "Background_Mode.png";
     public static final String TEXT_SPACE_START = "SpaceToStart.png";

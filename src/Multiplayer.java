@@ -7,8 +7,10 @@ import java.io.File;
 public class Multiplayer extends JFrame {
     Image bg;
     ImageIcon[] btn_Mode = new ImageIcon[Config.btn_Mode.length]; // ใช้ ImageIcon ตรง ๆ จะง่ายกว่า
+    selectMode frame_selectMode;
 
-    public Multiplayer() {
+    public Multiplayer(selectMode frame) {
+        this.frame_selectMode = frame;
         setFrame();
     }
 
@@ -32,7 +34,7 @@ public class Multiplayer extends JFrame {
         // ปุ่ม (ต้องใช้ชื่อไฟล์จาก Config.btn_Mode[i] และโฟลเดอร์ให้ถูก)
         for (int i = 0; i < Config.btn_Mode.length; i++) {
             String path_mode = System.getProperty("user.dir") + File.separator +
-                    "assets" + File.separator + "obj" + File.separator + Config.btn_Mode[i];
+                    "assets" + File.separator + "obj" + File.separator + Config.btn_Multiplay[i];
             btn_Mode[i] = new ImageIcon(path_mode);
         }
     }
@@ -56,27 +58,27 @@ public class Multiplayer extends JFrame {
         int width = 350;
         int height = 100;
 
-        JLabel btn_single  = new JLabel(scale(btn_Mode[0], width, height));
-        JLabel btn_multi   = new JLabel(scale(btn_Mode[1], width, height));
-        JLabel btn_how     = new JLabel(scale(btn_Mode[2], width, height));
+        JLabel btn_Host  = new JLabel(scale(btn_Mode[0], width, height));
+        JLabel btn_Join   = new JLabel(scale(btn_Mode[1], width, height));
+        JLabel btn_Back     = new JLabel(scale(btn_Mode[2], width, height));
 
-        btn_single.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btn_multi.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        btn_how.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn_Host.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn_Join.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btn_Back.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        btn_single.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btn_multi.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btn_how.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btn_Host.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btn_Join.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btn_Back.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        box.add(btn_single);
+        box.add(btn_Host);
         box.add(Box.createRigidArea(new Dimension(0, 30))); // เว้นระยะ
-        box.add(btn_multi);
+        box.add(btn_Join);
         box.add(Box.createRigidArea(new Dimension(0, 30)));
-        box.add(btn_how);
+        box.add(btn_Back);
 
         panel.add(box);
 
-        btn_single.addMouseListener(new MouseAdapter() {
+        btn_Host.addMouseListener(new MouseAdapter() {
             int w = width;
             int h = height;
 
@@ -87,17 +89,17 @@ public class Multiplayer extends JFrame {
                 int newH = (int) (h * scale);
 
                 Image bigger = btn_Mode[0].getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-                btn_single.setIcon(new ImageIcon(bigger));
+                btn_Host.setIcon(new ImageIcon(bigger));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 // กลับสู่ขนาดเดิม
-                btn_single.setIcon(scale(btn_Mode[0], w, h));
+                btn_Host.setIcon(scale(btn_Mode[0], w, h));
             }
         });
 
-        btn_multi.addMouseListener(new MouseAdapter() {
+        btn_Join.addMouseListener(new MouseAdapter() {
             int w = width;
             int h = height;
 
@@ -107,18 +109,18 @@ public class Multiplayer extends JFrame {
                 int newW = (int) (w * scale);
                 int newH = (int) (h * scale);
 
-                Image bigger = btn_Mode[0].getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-                btn_multi.setIcon(new ImageIcon(bigger));
+                Image bigger = btn_Mode[1].getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+                btn_Join.setIcon(new ImageIcon(bigger));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 // กลับสู่ขนาดเดิม
-                btn_multi.setIcon(scale(btn_Mode[0], w, h));
+                btn_Join.setIcon(scale(btn_Mode[1], w, h));
             }
         });
 
-        btn_how.addMouseListener(new MouseAdapter() {
+        btn_Back.addMouseListener(new MouseAdapter() {
             int w = width;
             int h = height;
 
@@ -128,14 +130,20 @@ public class Multiplayer extends JFrame {
                 int newW = (int) (w * scale);
                 int newH = (int) (h * scale);
 
-                Image bigger = btn_Mode[0].getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-                btn_how.setIcon(new ImageIcon(bigger));
+                Image bigger = btn_Mode[2].getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+                btn_Back.setIcon(new ImageIcon(bigger));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 // กลับสู่ขนาดเดิม
-                btn_how.setIcon(scale(btn_Mode[0], w, h));
+                btn_Back.setIcon(scale(btn_Mode[2], w, h));
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                setVisible(false);
+                frame_selectMode.setVisible(true);
             }
         });
     }

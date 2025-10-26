@@ -5,6 +5,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 
 public class selectMode extends JFrame {
+    Multiplayer frame_multi = new Multiplayer(this);
+    singlePlay single = new singlePlay();
     Image bg;
     ImageIcon[] button_Mode = new ImageIcon[Config.btn_Mode.length]; // ใช้ ImageIcon ตรง ๆ จะง่ายกว่า
 
@@ -34,7 +36,6 @@ public class selectMode extends JFrame {
             String path_mode = System.getProperty("user.dir") + File.separator +
                     "assets" + File.separator + "obj" + File.separator + Config.btn_Mode[i];
             button_Mode[i] = new ImageIcon(path_mode);
-            System.out.println(path_mode);
         }
     }
 
@@ -96,6 +97,12 @@ public class selectMode extends JFrame {
                 // กลับสู่ขนาดเดิม
                 btn_single.setIcon(scale(button_Mode[0], w, h));
             }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                setVisible(false);
+                single.setVisible(true);
+            }
         });
 
         btn_multi.addMouseListener(new MouseAdapter() {
@@ -116,6 +123,12 @@ public class selectMode extends JFrame {
             public void mouseExited(MouseEvent e) {
                 // กลับสู่ขนาดเดิม
                 btn_multi.setIcon(scale(button_Mode[1], w, h));
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                setVisible(false);
+                frame_multi.setVisible(true);
             }
         });
 
