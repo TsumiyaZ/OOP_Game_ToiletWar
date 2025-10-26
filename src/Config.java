@@ -32,6 +32,13 @@ public class Config {
             "Back.png"
     };
 
+    public static final String[] character_skin = {
+            "1.png",
+            "2.png",
+            "3.png",
+            "4.png"
+    };
+
     public static final String backgroundGame = "ToiletWar.png";
     public static final String background = "Background.png";
     public static final String bg_Mode = "Background_Mode.png";

@@ -6,11 +6,12 @@ import java.io.File;
 
 public class selectMode extends JFrame {
     Multiplayer frame_multi = new Multiplayer(this);
-    singlePlay single = new singlePlay();
     Image bg;
     ImageIcon[] button_Mode = new ImageIcon[Config.btn_Mode.length]; // ใช้ ImageIcon ตรง ๆ จะง่ายกว่า
+    private int indexSkin;
 
-    public selectMode() {
+    public selectMode(int indexSkin) {
+        this.indexSkin = indexSkin;
         setFrame();
     }
 
@@ -100,6 +101,7 @@ public class selectMode extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                singlePlay single = new singlePlay(indexSkin);
                 setVisible(false);
                 single.setVisible(true);
             }

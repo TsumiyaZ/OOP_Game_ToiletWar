@@ -4,10 +4,13 @@ import java.io.File;
 
 public class singlePlay extends JFrame {
     Image bg;
+    private int indexSkin;
+    Image Character;
 
-    public singlePlay() {
+    public singlePlay(int indexSkin) {
+        this.indexSkin = indexSkin;
+
         setFrame();
-
         loadImage();
     }
 

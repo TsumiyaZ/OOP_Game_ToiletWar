@@ -4,11 +4,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
-public class selectSkin extends JFrame{
-    GamePanel gamePanel = new GamePanel();
-    JPanel panelSkin[] = new JPanel[Config.COUNT_SKIN];
+public class selectSkin extends JFrame {
     Image chooseCharacter;
-    Image[] plaque = new Image[Config.COUNT_SKIN]; // <-- ป้าย p1..p4
+    Image[] plaque = new Image[Config.COUNT_SKIN];
+
+    // [ADD CHATGPT] อาร์เรย์เก็บรูปตัวละคร 1..4
+    private final Image[] charImg = new Image[Config.COUNT_SKIN]; // [ADD CHATGPT]
 
     public selectSkin() {
         setFrame();
@@ -34,19 +35,26 @@ public class selectSkin extends JFrame{
     }
 
     private void loadPicture() {
-        String path = System.getProperty("user.dir") + File.separator +
+        // ป้าย Choose Skin
+        String signChoose = System.getProperty("user.dir") + File.separator +
                 "assets" + File.separator + "obj" + File.separator + "Sign1.png";
-        chooseCharacter = new ImageIcon(path).getImage();
+        chooseCharacter = new ImageIcon(signChoose).getImage();
 
-        // โหลดป้าย p1..p4
+        // ป้ายชื่อตัวละคร
         for (int i = 0; i < Config.COUNT_SKIN; i++) {
-            String p = System.getProperty("user.dir") + File.separator +
-                    "assets" + File.separator + "obj" + File.separator + "p" + (i + 1) + ".png";
-            plaque[i] = new ImageIcon(p).getImage();
+            String path = System.getProperty("user.dir") + File.separator +
+                    "assets" + File.separator + "obj" + File.separator + "p" + (i+1) + ".png";
+            plaque[i] = new ImageIcon(path).getImage();
+        }
+
+        // ตัวละคร
+        for (int i = 0; i < Config.COUNT_SKIN; i++) {
+            String path = System.getProperty("user.dir") + File.separator +
+                    "assets" + File.separator + "Skin" + File.separator + Config.character_skin[i];
+            charImg[i] = new ImageIcon(path).getImage();
         }
     }
 
-    // ถ้ายังมีการวาด chooseCharacter ใน JFrame.paint อยู่ สามารถคงไว้ได้
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -59,9 +67,8 @@ public class selectSkin extends JFrame{
         }
     }
 
-    // วาด gradient + ป้ายของช่องนั้นๆ
+    // วาด gradient + ป้ายของช่องนั้นๆ + วางตัวละคร
     private JPanel createSkinPanel(Color top, Color bottom, int index) {
-        // พาเนลพื้นหลัง gradient
         JPanel panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -72,12 +79,17 @@ public class selectSkin extends JFrame{
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
         };
-        panel.setLayout(null); // จัดตำแหน่ง JLabel เองให้อยู่กลางล่าง
+        panel.setLayout(null);
 
         // ---- JLabel ป้าย ----
         Image plateImg = plaque[index];
         JLabel plate = new JLabel();
         plate.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        // [ADD CHATGPT] ตัวละคร (อยู่กึ่งกลาง เหนือป้าย)
+        JLabel charLabel = new JLabel(); //
+        panel.add(charLabel);            //  ต้อง add ก่อนเพื่อให้อยู่ใต้ป้าย (เพิ่มสกิน)
+        panel.add(plate);                  // เพิ่มปุ่ม select ตัวละคร
 
         plate.addMouseListener(new MouseAdapter() {
             ImageIcon iconNormal;
@@ -85,74 +97,72 @@ public class selectSkin extends JFrame{
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                // ถ้ายังไม่ได้เก็บ icon เดิม ให้เก็บไว้ก่อน
                 if (iconNormal == null) {
                     iconNormal = (ImageIcon) plate.getIcon();
                     w = iconNormal.getIconWidth();
                     h = iconNormal.getIconHeight();
                 }
-
-                // ขยาย 10%
                 double scale = 1.1;
                 int newW = (int) (w * scale);
                 int newH = (int) (h * scale);
-
-                // ตั้ง icon ใหม่ที่ขยายแล้ว
                 Image bigger = iconNormal.getImage().getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
                 plate.setIcon(new ImageIcon(bigger));
-
-                // ยกขึ้นเล็กน้อย
                 movePlate(plate, -5, -5, newW, newH);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                // กลับสู่ขนาดเดิม
                 plate.setIcon(iconNormal);
                 movePlate(plate, 5, 5, w, h);
             }
 
             @Override
             public void mousePressed(MouseEvent e) {
-                selectMode select_Mode = new selectMode();
+                selectMode select_Mode = new selectMode(index);
                 System.out.println("Clicked plate index = " + index);
                 setVisible(false);
                 select_Mode.setVisible(true);
             }
 
-            // ฟังก์ชันย่อย อ่านง่ายขึ้นมาก
             private void movePlate(JLabel p, int dx, int dy, int width, int height) {
                 p.setBounds(p.getX() + dx, p.getY() + dy, width, height);
             }
         });
 
-        panel.add(plate);
-
-        // วาง/สเกลป้ายให้พอดีกับขนาด panel ทุกครั้งที่ขนาดเปลี่ยน
+        // [ADD CHATGPT] จัดวางตัวละคร + ป้ายทุกครั้งที่รีไซส์
         panel.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override public void componentResized(java.awt.event.ComponentEvent e) {
-                if (plateImg == null) return;
-
+                // ----- ป้าย -----
                 int pw = panel.getWidth();
                 int ph = panel.getHeight();
 
-                // ความกว้างป้าย ~ 70% ของช่อง (ปรับได้)
-                int newW = (int) (pw * 0.75);
-
+                int plateW = (int) (pw * 0.75); // ความกว้างป้าย ~75% ของช่อง
                 int ow = plateImg.getWidth(null);
                 int oh = plateImg.getHeight(null);
+                int plateH = (int) ((double) oh / ow * plateW);
+                int plateX = (pw - plateW) / 2;
+                int plateY = ph - plateH - 50;
 
-                int newH = (int) ((double) oh / ow * newW);
+                plate.setBounds(plateX, plateY, plateW, plateH);
+                plate.setIcon(new ImageIcon(plateImg.getScaledInstance(plateW, plateH, Image.SCALE_SMOOTH)));
 
-                // จัดให้อยู่ "กลางล่าง" เว้นขอบล่าง 14 px
-                int x = (pw - newW) / 2;
-                int y = ph - newH - 50;
+                // ----- ตัวละคร -----
+                Image sprite = charImg[index];
+                if (sprite != null) {
+                    // ขนาดตัวละครตายตัว (กว้าง 200 สูงอัตโนมัติ)
+                    int charW = 350;
+                    int sw = sprite.getWidth(null);
+                    int sh = sprite.getHeight(null);
+                    int charH = (int) ((double) sh / sw * charW);
 
-                plate.setBounds(x, y, newW, newH);
-                // สร้างไอคอนขนาดใหม่
-                plate.setIcon(new ImageIcon(plateImg.getScaledInstance(newW, newH, Image.SCALE_SMOOTH)));
-                plate.revalidate();
-                plate.repaint();
+                    // จัดกึ่งกลางแนวนอน และวางเหนือป้าย ~200px
+                    int charX = (panel.getWidth() - charW) / 2;
+                    int charY = panel.getHeight() - charH - 150;
+
+                    // ตั้งตำแหน่งและใส่รูป
+                    charLabel.setBounds(charX, charY, charW, charH);
+                    charLabel.setIcon(new ImageIcon(sprite.getScaledInstance(charW, charH, Image.SCALE_SMOOTH)));
+                }
             }
         });
 
