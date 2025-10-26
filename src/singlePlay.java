@@ -108,13 +108,13 @@ public class singlePlay extends JFrame {
             try {
                 for (int i = 5; i > 0; i--) {
                     int n = i;
-                    SwingUtilities.invokeLater(() -> lblCountdown.setText(String.valueOf(n)));
+                    lblCountdown.setText(String.valueOf(n));
                     Thread.sleep(1000);
                 }
 
-                SwingUtilities.invokeLater(() -> lblCountdown.setText("GO!"));
+                lblCountdown.setText("GO!");
                 Thread.sleep(800);
-                SwingUtilities.invokeLater(() -> lblCountdown.setVisible(false));
+                lblCountdown.setVisible(false);
 
                 started = true;
                 startTimerThread(); // เริ่มจับเวลา
@@ -125,7 +125,7 @@ public class singlePlay extends JFrame {
 
     private void startTimerThread() {
         startNano = System.nanoTime();
-        System.out.println(startNano);
+
         timerThread = new Thread(() -> {
             while (!finished && started) {
                 long elapsedNano = System.nanoTime() - startNano;
