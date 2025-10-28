@@ -21,10 +21,10 @@ public class windowTitle extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    selectSkin frame = new selectSkin();
+                    SkinSelector skinSelector = new SkinSelector();
                     System.out.println("Welcome to Game");
                     setVisible(false);
-                    frame.setVisible(true);
+                    skinSelector.setVisible(true);
                 }
             }
         });
