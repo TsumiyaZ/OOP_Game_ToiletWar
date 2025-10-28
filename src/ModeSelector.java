@@ -125,6 +125,8 @@ public class ModeSelector extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                setVisible(false);
+                multiplayerSelector.setVisible(true);
             }
         });
 

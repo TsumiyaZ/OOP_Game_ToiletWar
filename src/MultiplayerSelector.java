@@ -131,4 +131,5 @@ public class MultiplayerSelector extends JFrame {
         Image img = icon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
         return new ImageIcon(img);
     }
+
 }
