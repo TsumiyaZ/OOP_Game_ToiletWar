@@ -25,10 +25,8 @@ public class GameCharacter {
     }
 
     public void move() {
-        if (isMoving) {
-            x += step;
-            characterLabel.setLocation(x, y);
-        }
+        x += step;
+        characterLabel.setLocation(x, y);
     }
 
     public void updateAnimation() {

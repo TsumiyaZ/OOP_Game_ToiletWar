@@ -19,7 +19,6 @@ public class SinglePlayerGame extends JFrame {
     private GameCountdown gameCountdown;
     private Thread animationThread;
 
-    private boolean isPressed = false;
     private boolean finished = false;
     private boolean started = false;
 
@@ -62,19 +61,20 @@ public class SinglePlayerGame extends JFrame {
 
     private void setupControls() {
         addKeyListener(new KeyAdapter() {
+            private boolean spacePressed = false;
+            
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_SPACE && !isPressed && !finished && started) {
-                    isPressed = true;
-                    character.setMoving(true);
+                if (e.getKeyCode() == KeyEvent.VK_SPACE && !spacePressed && !finished && started) {
+                    spacePressed = true;
+                    moveCharacterOneStep();
                 }
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                    isPressed = false;
-                    character.setMoving(false);
+                    spacePressed = false;
                 }
             }
         });
@@ -95,10 +95,6 @@ public class SinglePlayerGame extends JFrame {
             while (!finished) {
                 SwingUtilities.invokeLater(() -> {
                     character.updateAnimation();
-                    if (started && character.getX() < FINISH_LINE) {
-                        character.move();
-                        checkWinCondition();
-                    }
                 });
 
                 try {
@@ -107,6 +103,22 @@ public class SinglePlayerGame extends JFrame {
             }
         });
         animationThread.start();
+    }
+
+    private void moveCharacterOneStep() {
+        if (character.getX() < FINISH_LINE) {
+            character.setMoving(true);
+            character.move();
+            
+            Timer walkTimer = new Timer(200, e -> {
+                character.setMoving(false);
+                ((Timer) e.getSource()).stop();
+            });
+            walkTimer.setRepeats(false);
+            walkTimer.start();
+            
+            checkWinCondition();
+        }
     }
 
     private void checkWinCondition() {

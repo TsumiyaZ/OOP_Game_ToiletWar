@@ -125,8 +125,6 @@ public class ModeSelector extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                MultiPlayerGame multiGame = new MultiPlayerGame(skinIndex, (skinIndex + 1) % Config.COUNT_SKIN);
-                setVisible(false);
             }
         });
 
@@ -155,8 +153,18 @@ public class ModeSelector extends JFrame {
         return new ImageIcon(img);
     }
 
+    private ImageIcon createDisabledIcon(ImageIcon original, int width, int height) {
+        Image img = original.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        java.awt.image.BufferedImage buffered = new java.awt.image.BufferedImage(width, height, java.awt.image.BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = buffered.createGraphics();
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.3f));
+        g2d.drawImage(img, 0, 0, null);
+        g2d.dispose();
+        return new ImageIcon(buffered);
+    }
+
     @Override
-    public void dispose() {
+    public void dispose() { 
         if (skinPreview != null) {
             skinPreview.stopAnimation();
         }
