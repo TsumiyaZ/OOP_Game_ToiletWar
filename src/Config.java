@@ -43,6 +43,7 @@ public class Config {
     public static final String background = "Background.png";
     public static final String bg_Mode = "Background_Mode.png";
     public static final String TEXT_SPACE_START = "SpaceToStart.png";
+    public static final int COUNTDOWN_START = 5;
 }
 
 

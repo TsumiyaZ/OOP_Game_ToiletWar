@@ -13,15 +13,15 @@ public class GameCountdown {
     public void start() {
         countdownThread = new Thread(() -> {
             try {
-                for (int i = 5; i > 0; i--) {
+                for (int i = Config.COUNTDOWN_START; i > 0; i--) {
                     final int count = i;
-                    SwingUtilities.invokeLater(() -> countdownLabel.setText(String.valueOf(count)));
+                    countdownLabel.setText(String.valueOf(count));
                     Thread.sleep(1000);
                 }
 
-                SwingUtilities.invokeLater(() -> countdownLabel.setText("GO!"));
+                countdownLabel.setText("GO!");
                 Thread.sleep(800);
-                SwingUtilities.invokeLater(() -> countdownLabel.setVisible(false));
+                countdownLabel.setVisible(false);
 
                 if (onComplete != null) {
                     onComplete.run();
