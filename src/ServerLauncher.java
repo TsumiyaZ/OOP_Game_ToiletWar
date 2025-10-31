@@ -25,10 +25,16 @@ public class ServerLauncher extends JFrame {
     }
 
     private void createComponents() {
-        JPanel topPanel = new JPanel(new FlowLayout());
+        JPanel topPanel = new JPanel(new GridLayout(2, 1));
         statusLabel = new JLabel("Server Status: Stopped");
         statusLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        
+        JLabel ipLabel = new JLabel("Server IP: " + getLocalIPAddress());
+        ipLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        ipLabel.setForeground(Color.BLUE);
+        
         topPanel.add(statusLabel);
+        topPanel.add(ipLabel);
         add(topPanel, BorderLayout.NORTH);
 
         logArea = new JTextArea();
@@ -54,10 +60,6 @@ public class ServerLauncher extends JFrame {
         JButton clearLogButton = new JButton("Clear Log");
         clearLogButton.addActionListener(e -> logArea.setText(""));
         buttonPanel.add(clearLogButton);
-
-        JButton copyIPButton = new JButton("Copy IP");
-        copyIPButton.addActionListener(e -> copyIPToClipboard());
-        buttonPanel.add(copyIPButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -114,18 +116,7 @@ public class ServerLauncher extends JFrame {
         }
     }
 
-    private void copyIPToClipboard() {
-        String serverIP = getLocalIPAddress();
-        java.awt.datatransfer.StringSelection stringSelection = new java.awt.datatransfer.StringSelection(serverIP);
-        java.awt.datatransfer.Clipboard clipboard = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(stringSelection, null);
-        
-        addLog("IP address copied to clipboard: " + serverIP);
-        JOptionPane.showMessageDialog(this, 
-            "Server IP copied to clipboard: " + serverIP + "\n\nShare this IP with other players!", 
-            "IP Copied", 
-            JOptionPane.INFORMATION_MESSAGE);
-    }
+
 
     @Override
     public void dispose() {
