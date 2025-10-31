@@ -96,7 +96,7 @@ public class MultiplayerSelector extends JFrame {
             @Override
             public void mousePressed(MouseEvent e) {
                 setVisible(false);
-                SimpleLobby lobby = new SimpleLobby();
+                SimpleLobby lobby = new SimpleLobby(modeSelector.getSkinIndex());
                 lobby.setVisible(true);
                 lobby.connectToServer("localhost");
             }

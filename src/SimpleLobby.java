@@ -7,10 +7,13 @@ public class SimpleLobby extends JFrame {
     private JList<String> playerList;
     private DefaultListModel<String> listModel;
     private JButton readyButton;
+    private JButton startButton;
     private JLabel statusLabel;
     private int mySkinIndex = 0;
+    private String myPlayerName;
 
-    public SimpleLobby() {
+    public SimpleLobby(int skinIndex) {
+        this.mySkinIndex = skinIndex;
         setupFrame();
         createComponents();
     }
@@ -43,6 +46,11 @@ public class SimpleLobby extends JFrame {
         readyButton.addActionListener(e -> setReady());
         buttonPanel.add(readyButton);
 
+        startButton = new JButton("Start Game");
+        startButton.setEnabled(false);
+        startButton.addActionListener(e -> startGame());
+        buttonPanel.add(startButton);
+
         JButton backButton = new JButton("Back to Menu");
         backButton.addActionListener(e -> goBack());
         buttonPanel.add(backButton);
@@ -53,11 +61,12 @@ public class SimpleLobby extends JFrame {
     public void connectToServer(String serverIP) {
         client = new GameClient(this);
         if (client.connect(serverIP)) {
-            String playerName = JOptionPane.showInputDialog(this, "Enter your name:", "Player Name", JOptionPane.QUESTION_MESSAGE);
-            if (playerName == null || playerName.trim().isEmpty()) {
-                playerName = "Player" + System.currentTimeMillis() % 1000;
+            myPlayerName = JOptionPane.showInputDialog(this, "Enter your name:", "Player Name", JOptionPane.QUESTION_MESSAGE);
+            if (myPlayerName == null || myPlayerName.trim().isEmpty()) {
+                myPlayerName = "Player" + System.currentTimeMillis() % 1000;
             }
-            client.joinGame(playerName.trim(), mySkinIndex);
+            myPlayerName = myPlayerName.trim();
+            client.joinGame(myPlayerName, mySkinIndex);
         } else {
             JOptionPane.showMessageDialog(this, "Failed to connect to server!\nMake sure the server is running.", "Connection Error", JOptionPane.ERROR_MESSAGE);
             goBack();
@@ -80,7 +89,16 @@ public class SimpleLobby extends JFrame {
             }
             
             long readyCount = players.stream().mapToLong(p -> p.isReady() ? 1 : 0).sum();
-            statusLabel.setText("Players: " + players.size() + " | Ready: " + readyCount + " | Need 3+ ready players to start");
+            boolean canStart = players.size() >= 3 && readyCount == players.size();
+            startButton.setEnabled(canStart);
+            
+            if (canStart) {
+                statusLabel.setText("Players: " + players.size() + " | Ready: " + readyCount + " | Ready to start!");
+                startButton.setBackground(java.awt.Color.GREEN);
+            } else {
+                statusLabel.setText("Players: " + players.size() + " | Ready: " + readyCount + " | Need 3+ ready players to start");
+                startButton.setBackground(null);
+            }
         });
     }
 
@@ -96,10 +114,20 @@ public class SimpleLobby extends JFrame {
         }
     }
 
+    private void startGame() {
+        if (client != null) {
+            client.startGame();
+        }
+    }
+
     public void startMultiplayerGame() {
         SwingUtilities.invokeLater(() -> {
             setVisible(false);
-            new NetworkMultiplayerGame();
+            NetworkMultiplayerGame game = new NetworkMultiplayerGame(client, myPlayerName);
+            if (client != null) {
+                game.addPlayers(client.getPlayers(), myPlayerName);
+                client.setGame(game);
+            }
         });
     }
 

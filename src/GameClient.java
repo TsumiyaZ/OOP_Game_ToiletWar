@@ -10,6 +10,7 @@ public class GameClient {
     private BufferedReader in;
     private List<NetworkPlayer> players;
     private SimpleLobby lobby;
+    private NetworkMultiplayerGame game;
 
     public GameClient(SimpleLobby lobby) {
         this.lobby = lobby;
@@ -44,6 +45,10 @@ public class GameClient {
 
     public void changeSkin(int skinIndex) {
         sendMessage("CHANGE_SKIN:" + skinIndex);
+    }
+
+    public void sendMove(int playerId, int newX) {
+        sendMessage("MOVE:" + playerId + ":" + newX);
     }
 
     private void sendMessage(String message) {
@@ -83,6 +88,13 @@ public class GameClient {
             case "GAME_START":
                 lobby.startMultiplayerGame();
                 break;
+            case "PLAYER_MOVE":
+                if (game != null && parts.length > 2) {
+                    int playerId = Integer.parseInt(parts[1]);
+                    int newX = Integer.parseInt(parts[2]);
+                    game.syncPlayerPosition(playerId, newX);
+                }
+                break;
         }
     }
 
@@ -104,6 +116,14 @@ public class GameClient {
                 }
             }
         }
+    }
+
+    public List<NetworkPlayer> getPlayers() {
+        return new ArrayList<>(players);
+    }
+
+    public void setGame(NetworkMultiplayerGame game) {
+        this.game = game;
     }
 
     public void disconnect() {

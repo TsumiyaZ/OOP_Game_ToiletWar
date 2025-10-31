@@ -73,6 +73,10 @@ public class GameServer {
         broadcastMessage(playerList.toString());
     }
 
+    public void broadcastMove(int playerId, int newX) {
+        broadcastMessage("PLAYER_MOVE:" + playerId + ":" + newX);
+    }
+
     public void stop() {
         try {
             if (serverSocket != null) {

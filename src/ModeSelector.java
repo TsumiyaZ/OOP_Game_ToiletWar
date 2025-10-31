@@ -165,6 +165,10 @@ public class ModeSelector extends JFrame {
         return new ImageIcon(buffered);
     }
 
+    public int getSkinIndex() {
+        return skinIndex;
+    }
+
     @Override
     public void dispose() { 
         if (skinPreview != null) {

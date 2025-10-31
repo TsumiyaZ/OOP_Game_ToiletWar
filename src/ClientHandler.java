@@ -65,6 +65,13 @@ public class ClientHandler implements Runnable {
                     server.broadcastPlayerList();
                 }
                 break;
+            case "MOVE":
+                if (player != null && parts.length >= 3) {
+                    int playerId = Integer.parseInt(parts[1]);
+                    int newX = Integer.parseInt(parts[2]);
+                    server.broadcastMove(playerId, newX);
+                }
+                break;
         }
     }
 
