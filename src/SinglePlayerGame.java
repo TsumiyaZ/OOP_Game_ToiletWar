@@ -7,7 +7,7 @@ public class SinglePlayerGame extends JFrame {
     private static final int CHARACTER_WIDTH = 150;
     private static final int CHARACTER_HEIGHT = 150;
     private static final int CHARACTER_Y = 230;
-    private static final int STEP_SIZE = 5;
+    private static final int STEP_SIZE = Config.SPEED_RUN;
 
     private JLabel lblBackground;
     private JLabel lblWinner;

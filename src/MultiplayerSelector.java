@@ -50,12 +50,23 @@ public class MultiplayerSelector extends JFrame {
 
         Box mainBox = Box.createVerticalBox();
         
-        JLabel instructionLabel = new JLabel("<html><center>To play multiplayer:<br>1. Run ServerLauncher.java separately<br>2. Click 'Join Game' below</center></html>");
+        JLabel instructionLabel = new JLabel("<html><center>To play multiplayer:<br>1. Run ServerLauncher.java separately<br>2. Enter server IP and click 'Join Game'</center></html>");
         instructionLabel.setFont(new Font("Arial", Font.BOLD, 16));
         instructionLabel.setForeground(Color.WHITE);
         instructionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainBox.add(instructionLabel);
-        mainBox.add(Box.createRigidArea(new Dimension(0, 30)));
+        mainBox.add(Box.createRigidArea(new Dimension(0, 20)));
+        
+        JPanel ipPanel = new JPanel(new FlowLayout());
+        ipPanel.setOpaque(false);
+        JLabel ipLabel = new JLabel("Server IP:");
+        ipLabel.setForeground(Color.WHITE);
+        ipLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        JTextField ipField = new JTextField("localhost", 15);
+        ipPanel.add(ipLabel);
+        ipPanel.add(ipField);
+        mainBox.add(ipPanel);
+        mainBox.add(Box.createRigidArea(new Dimension(0, 20)));
 
         Box box = Box.createVerticalBox();
 
@@ -78,10 +89,10 @@ public class MultiplayerSelector extends JFrame {
         mainBox.add(box);
         panel.add(mainBox);
 
-        setupButtonListeners(btnJoin, btnBack, width, height);
+        setupButtonListeners(btnJoin, btnBack, width, height, ipField);
     }
 
-    private void setupButtonListeners(JLabel btnJoin, JLabel btnBack, int width, int height) {
+    private void setupButtonListeners(JLabel btnJoin, JLabel btnBack, int width, int height, JTextField ipField) {
         btnJoin.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -95,10 +106,15 @@ public class MultiplayerSelector extends JFrame {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                String serverIP = ipField.getText().trim();
+                if (serverIP.isEmpty()) {
+                    serverIP = "localhost";
+                }
+                
                 setVisible(false);
                 SimpleLobby lobby = new SimpleLobby(modeSelector.getSkinIndex());
                 lobby.setVisible(true);
-                lobby.connectToServer("localhost");
+                lobby.connectToServer(serverIP);
             }
         });
 

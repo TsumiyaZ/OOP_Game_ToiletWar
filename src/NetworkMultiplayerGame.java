@@ -10,7 +10,7 @@ public class NetworkMultiplayerGame extends JFrame {
     private static final int FINISH_LINE = 1100;
     private static final int CHARACTER_WIDTH = 120;
     private static final int CHARACTER_HEIGHT = 120;
-    private static final int STEP_SIZE = 5;
+    private static final int STEP_SIZE = Config.SPEED_RUN;
     private static final int ROAD_START_Y = 280;
     private static final int LANE_HEIGHT = 80;
 

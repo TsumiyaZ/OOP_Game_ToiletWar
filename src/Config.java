@@ -39,7 +39,8 @@ public class Config {
             "4.png"
     };
 
-    public static final int PLAYER_READY_TO_START = 1;
+    public static final int PLAYER_READY_TO_START = 2;
+    public static final int SPEED_RUN = 25;
 
     public static final String backgroundGame = "ToiletWar.png";
     public static final String background = "Background.png";

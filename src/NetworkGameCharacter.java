@@ -28,8 +28,7 @@ public class NetworkGameCharacter {
         this.nameLabel.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
         this.nameLabel.setForeground(java.awt.Color.WHITE);
         this.nameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        this.nameLabel.setOpaque(true);
-        this.nameLabel.setBackground(new java.awt.Color(0, 0, 0, 128));
+        this.nameLabel.setOpaque(false);
         updateNamePosition();
         System.out.println("Created name label for: " + playerName + " at position: " + startX + ", " + startY);
     }
@@ -68,9 +67,9 @@ public class NetworkGameCharacter {
 
     public void updateNamePosition() {
         if (nameLabel != null) {
-            int nameWidth = 100;
+            int nameWidth = 80;
             int nameHeight = 20;
-            int nameX = x - nameWidth - 10;
+            int nameX = x - nameWidth - 2;
             int nameY = y + (height - nameHeight) / 2;
             nameLabel.setBounds(nameX, nameY, nameWidth, nameHeight);
             System.out.println("Updated name position for " + playerName + ": " + nameX + ", " + nameY);

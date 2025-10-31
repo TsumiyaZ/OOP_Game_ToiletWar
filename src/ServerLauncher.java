@@ -55,6 +55,10 @@ public class ServerLauncher extends JFrame {
         clearLogButton.addActionListener(e -> logArea.setText(""));
         buttonPanel.add(clearLogButton);
 
+        JButton copyIPButton = new JButton("Copy IP");
+        copyIPButton.addActionListener(e -> copyIPToClipboard());
+        buttonPanel.add(copyIPButton);
+
         add(buttonPanel, BorderLayout.SOUTH);
 
         addLog("Server launcher ready. Click 'Start Server' to begin.");
@@ -68,13 +72,16 @@ public class ServerLauncher extends JFrame {
                 server.start();
             }).start();
             
+            String serverIP = getLocalIPAddress();
             serverRunning = true;
             startButton.setEnabled(false);
             stopButton.setEnabled(true);
-            statusLabel.setText("Server Status: Running on localhost:12345");
+            statusLabel.setText("Server Status: Running on " + serverIP + ":12345");
             statusLabel.setForeground(Color.GREEN);
             addLog("Server started successfully!");
-            addLog("Players can now connect using 'localhost' or '127.0.0.1'");
+            addLog("Server IP: " + serverIP);
+            addLog("Players can connect using: " + serverIP);
+            addLog("Local players can use: localhost or 127.0.0.1");
         }
     }
 
@@ -96,6 +103,28 @@ public class ServerLauncher extends JFrame {
             logArea.append("[" + timestamp + "] " + message + "\n");
             logArea.setCaretPosition(logArea.getDocument().getLength());
         });
+    }
+
+    private String getLocalIPAddress() {
+        try {
+            java.net.InetAddress localHost = java.net.InetAddress.getLocalHost();
+            return localHost.getHostAddress();
+        } catch (Exception e) {
+            return "localhost";
+        }
+    }
+
+    private void copyIPToClipboard() {
+        String serverIP = getLocalIPAddress();
+        java.awt.datatransfer.StringSelection stringSelection = new java.awt.datatransfer.StringSelection(serverIP);
+        java.awt.datatransfer.Clipboard clipboard = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
+        
+        addLog("IP address copied to clipboard: " + serverIP);
+        JOptionPane.showMessageDialog(this, 
+            "Server IP copied to clipboard: " + serverIP + "\n\nShare this IP with other players!", 
+            "IP Copied", 
+            JOptionPane.INFORMATION_MESSAGE);
     }
 
     @Override
