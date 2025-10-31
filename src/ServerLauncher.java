@@ -78,7 +78,7 @@ public class ServerLauncher extends JFrame {
             serverRunning = true;
             startButton.setEnabled(false);
             stopButton.setEnabled(true);
-            statusLabel.setText("Server Status: Running on " + serverIP + ":12345");
+            statusLabel.setText("Server Status: Running on " + serverIP + " Port : 12345");
             statusLabel.setForeground(Color.GREEN);
             addLog("Server started successfully!");
             addLog("Server IP: " + serverIP);
