@@ -32,7 +32,7 @@ public class SkinSelector extends JFrame {
 
         for (int i = 0; i < Config.COUNT_SKIN; i++) {
             String path = System.getProperty("user.dir") + File.separator +
-                    "assets" + File.separator + "obj" + File.separator + "p" + (i+1) + ".png";
+                    "assets" + File.separator + "obj" + File.separator + "SELECT.png";
             plaque[i] = new ImageIcon(path).getImage();
         }
 
@@ -124,7 +124,7 @@ public class SkinSelector extends JFrame {
                 int pw = panel.getWidth();
                 int ph = panel.getHeight();
 
-                int plateW = (int) (pw * 0.75);
+                int plateW = (int) (pw * 0.85);
                 int ow = plateImg.getWidth(null);
                 int oh = plateImg.getHeight(null);
                 int plateH = (int) ((double) oh / ow * plateW);

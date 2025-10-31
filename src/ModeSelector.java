@@ -10,6 +10,7 @@ public class ModeSelector extends JFrame {
     private ImageIcon[] buttonMode = new ImageIcon[Config.btn_Mode.length];
     private int skinIndex;
     private SkinPreview skinPreview;
+    private HowToPlayFrame howtoplay = new HowToPlayFrame(this);
 
     public ModeSelector(int skinIndex) {
         this.skinIndex = skinIndex;
@@ -140,7 +141,14 @@ public class ModeSelector extends JFrame {
             public void mouseExited(MouseEvent e) {
                 btnHow.setIcon(scaleIcon(buttonMode[2], width, height));
             }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                setVisible(false);
+                new HowToPlayFrame(ModeSelector.this).setVisible(true);
+            }
         });
+
     }
 
     private void scaleButton(JLabel button, ImageIcon icon, int width, int height, double scale) {
