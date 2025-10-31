@@ -16,8 +16,11 @@ public class NetworkMultiplayerGame extends JFrame {
 
     private JLabel lblBackground;
     private JLabel lblWinner;
+    private JLabel lblWinnerImage;
+    private JLabel lblLoserImage;
     private JLabel lblTimer;
     private JLabel lblCountdown;
+    private JPanel toiletFlagsPanel;
 
     private Map<Integer, NetworkGameCharacter> characters;
     private GameTimer gameTimer;
@@ -57,6 +60,12 @@ public class NetworkMultiplayerGame extends JFrame {
         lblWinner = GameUI.createWinnerLabel();
         lblBackground.add(lblWinner);
 
+        lblWinnerImage = GameUI.createWinnerImage();
+        lblBackground.add(lblWinnerImage);
+
+        lblLoserImage = GameUI.createLoserImage();
+        lblBackground.add(lblLoserImage);
+
         lblTimer = GameUI.createTimerLabel();
         lblBackground.add(lblTimer);
 
@@ -92,6 +101,9 @@ public class NetworkMultiplayerGame extends JFrame {
                 System.out.println("My player ID: " + myPlayerId + ", Name: " + myPlayerName);
             }
         }
+        
+        toiletFlagsPanel = GameUI.createMultiplayerToiletFlags(FINISH_LINE, ROAD_START_Y, LANE_HEIGHT, players.size());
+        lblBackground.add(toiletFlagsPanel);
     }
 
     private void setupControls() {
@@ -208,8 +220,16 @@ public class NetworkMultiplayerGame extends JFrame {
             gameTimer.stop();
 
             double seconds = gameTimer.getElapsedSeconds();
-            lblWinner.setText(String.format("%s WINS! (%.2f s)", character.getPlayerName(), seconds));
-            lblWinner.setVisible(true);
+            
+            if (character.getPlayerId() == myPlayerId) {
+                lblWinner.setText(String.format("Time: %.2f s", seconds));
+                lblWinner.setVisible(true);
+                lblWinnerImage.setVisible(true);
+            } else {
+                lblWinner.setText(String.format("%s WINS! (%.2f s)", character.getPlayerName(), seconds));
+                lblWinner.setVisible(true);
+                lblLoserImage.setVisible(true);
+            }
         }
     }
 }

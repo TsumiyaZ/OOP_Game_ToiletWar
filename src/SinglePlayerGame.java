@@ -11,8 +11,10 @@ public class SinglePlayerGame extends JFrame {
 
     private JLabel lblBackground;
     private JLabel lblWinner;
+    private JLabel lblWinnerImage;
     private JLabel lblTimer;
     private JLabel lblCountdown;
+    private JLabel lblToiletFlag;
 
     private GameCharacter character;
     private GameTimer gameTimer;
@@ -49,11 +51,17 @@ public class SinglePlayerGame extends JFrame {
         lblWinner = GameUI.createWinnerLabel();
         lblBackground.add(lblWinner);
 
+        lblWinnerImage = GameUI.createWinnerImage();
+        lblBackground.add(lblWinnerImage);
+
         lblTimer = GameUI.createTimerLabel();
         lblBackground.add(lblTimer);
 
         lblCountdown = GameUI.createCountdownLabel();
         lblBackground.add(lblCountdown);
+
+        lblToiletFlag = GameUI.createToiletFlag(FINISH_LINE + 100, CHARACTER_Y);
+        lblBackground.add(lblToiletFlag);
 
         gameTimer = new GameTimer(lblTimer);
         gameCountdown = new GameCountdown(lblCountdown, this::onCountdownComplete);
@@ -128,8 +136,9 @@ public class SinglePlayerGame extends JFrame {
             gameTimer.stop();
 
             double seconds = gameTimer.getElapsedSeconds();
-            lblWinner.setText(String.format("WINNER! (%.2f s)", seconds));
+            lblWinner.setText(String.format("Time: %.2f s", seconds));
             lblWinner.setVisible(true);
+            lblWinnerImage.setVisible(true);
         }
     }
 }
