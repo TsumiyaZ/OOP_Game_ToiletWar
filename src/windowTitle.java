@@ -55,12 +55,6 @@ public class windowTitle extends JFrame {
             int textWidth = textStart.getWidth(this);
             int textHeight = textStart.getHeight(this);
 
-            System.out.println("textWidth : " + textWidth);
-            System.out.println("textHeight : " + textHeight);
-
-            System.out.println(getWidth());
-            System.out.println(getHeight());
-
             // คำนวณตำแหน่งให้อยู่ "กลางล่าง" ของจอ
             int x = (getWidth() - textWidth) / 2;
             int y = getHeight() - textHeight - 60; // เว้นจากขอบล่างนิดหน่อย (~60px)

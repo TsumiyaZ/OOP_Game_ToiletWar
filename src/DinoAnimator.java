@@ -19,10 +19,7 @@ public class DinoAnimator {
     private void loadFrames(int dinoIndex) {
         String basePath = System.getProperty("user.dir") + File.separator +
                 "assets" + File.separator + "DinoSprites" + File.separator + "d" + (dinoIndex + 1);
-        
-        System.out.println("Loading frames for dino index: " + dinoIndex);
-        System.out.println("Base path: " + basePath);
-        
+
         stopFrames = loadFramesFromDirectory(basePath + File.separator + "stop", "stop");
         walkFrames = loadFramesFromDirectory(basePath + File.separator + "walk", "walk");
     }

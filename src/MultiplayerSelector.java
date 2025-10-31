@@ -48,47 +48,40 @@ public class MultiplayerSelector extends JFrame {
         panel.setLayout(new GridBagLayout());
         getContentPane().add(panel);
 
+        Box mainBox = Box.createVerticalBox();
+        
+        JLabel instructionLabel = new JLabel("<html><center>To play multiplayer:<br>1. Run ServerLauncher.java separately<br>2. Click 'Join Game' below</center></html>");
+        instructionLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        instructionLabel.setForeground(Color.WHITE);
+        instructionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainBox.add(instructionLabel);
+        mainBox.add(Box.createRigidArea(new Dimension(0, 30)));
+
         Box box = Box.createVerticalBox();
 
         int width = 350;
         int height = 100;
 
-        JLabel btnHost = new JLabel(scaleIcon(btnMode[0], width, height));
         JLabel btnJoin = new JLabel(scaleIcon(btnMode[1], width, height));
         JLabel btnBack = new JLabel(scaleIcon(btnMode[2], width, height));
 
-        btnHost.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnJoin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnBack.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        btnHost.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnJoin.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnBack.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        box.add(btnHost);
-        box.add(Box.createRigidArea(new Dimension(0, 30)));
         box.add(btnJoin);
         box.add(Box.createRigidArea(new Dimension(0, 30)));
         box.add(btnBack);
 
-        panel.add(box);
+        mainBox.add(box);
+        panel.add(mainBox);
 
-        setupButtonListeners(btnHost, btnJoin, btnBack, width, height);
+        setupButtonListeners(btnJoin, btnBack, width, height);
     }
 
-    private void setupButtonListeners(JLabel btnHost, JLabel btnJoin, JLabel btnBack, int width, int height) {
-        btnHost.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                scaleButton(btnHost, btnMode[0], width, height, 1.1);
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                btnHost.setIcon(scaleIcon(btnMode[0], width, height));
-            }
-        });
-
+    private void setupButtonListeners(JLabel btnJoin, JLabel btnBack, int width, int height) {
         btnJoin.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -98,6 +91,14 @@ public class MultiplayerSelector extends JFrame {
             @Override
             public void mouseExited(MouseEvent e) {
                 btnJoin.setIcon(scaleIcon(btnMode[1], width, height));
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                setVisible(false);
+                SimpleLobby lobby = new SimpleLobby();
+                lobby.setVisible(true);
+                lobby.connectToServer("localhost");
             }
         });
 
