@@ -16,8 +16,6 @@ public class HowToPlayFrame extends JFrame {
         setLocationRelativeTo(null);
 
         add(new HowToPlayPanel(this.mode));
-
-        setVisible(true);
     }
 }
 
