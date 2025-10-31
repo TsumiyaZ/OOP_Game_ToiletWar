@@ -47,7 +47,7 @@ public class GameServer {
     }
 
     public boolean canStartGame() {
-        return players.size() >= 3 && players.stream().allMatch(NetworkPlayer::isReady);
+        return players.size() >= Config.PLAYER_READY_TO_START && players.stream().allMatch(NetworkPlayer::isReady);
     }
 
     public void startGame() {
@@ -75,6 +75,10 @@ public class GameServer {
 
     public void broadcastMove(int playerId, int newX) {
         broadcastMessage("PLAYER_MOVE:" + playerId + ":" + newX);
+    }
+
+    public void broadcastStep(int playerId) {
+        broadcastMessage("PLAYER_STEP:" + playerId);
     }
 
     public void stop() {

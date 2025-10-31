@@ -39,6 +39,8 @@ public class Config {
             "4.png"
     };
 
+    public static final int PLAYER_READY_TO_START = 1;
+
     public static final String backgroundGame = "ToiletWar.png";
     public static final String background = "Background.png";
     public static final String bg_Mode = "Background_Mode.png";

@@ -72,6 +72,12 @@ public class ClientHandler implements Runnable {
                     server.broadcastMove(playerId, newX);
                 }
                 break;
+            case "STEP":
+                if (player != null && parts.length >= 2) {
+                    int playerId = Integer.parseInt(parts[1]);
+                    server.broadcastStep(playerId);
+                }
+                break;
         }
     }
 

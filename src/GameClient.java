@@ -51,6 +51,10 @@ public class GameClient {
         sendMessage("MOVE:" + playerId + ":" + newX);
     }
 
+    public void sendStep(int playerId) {
+        sendMessage("STEP:" + playerId);
+    }
+
     private void sendMessage(String message) {
         if (out != null) {
             out.println(message);
@@ -93,6 +97,12 @@ public class GameClient {
                     int playerId = Integer.parseInt(parts[1]);
                     int newX = Integer.parseInt(parts[2]);
                     game.syncPlayerPosition(playerId, newX);
+                }
+                break;
+            case "PLAYER_STEP":
+                if (game != null && parts.length > 1) {
+                    int playerId = Integer.parseInt(parts[1]);
+                    game.movePlayer(playerId);
                 }
                 break;
         }

@@ -2,6 +2,7 @@ import javax.swing.*;
 
 public class NetworkGameCharacter {
     private JLabel characterLabel;
+    private JLabel nameLabel;
     private DinoAnimator animator;
     private int x, y;
     private int width, height;
@@ -19,8 +20,18 @@ public class NetworkGameCharacter {
         this.width = width;
         this.height = height;
         this.step = step;
+        
         this.characterLabel = new JLabel();
         this.characterLabel.setBounds(x, y, width, height);
+        
+        this.nameLabel = new JLabel(playerName);
+        this.nameLabel.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 14));
+        this.nameLabel.setForeground(java.awt.Color.WHITE);
+        this.nameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        this.nameLabel.setOpaque(true);
+        this.nameLabel.setBackground(new java.awt.Color(0, 0, 0, 128));
+        updateNamePosition();
+        System.out.println("Created name label for: " + playerName + " at position: " + startX + ", " + startY);
     }
 
     public void setMoving(boolean moving) {
@@ -31,6 +42,7 @@ public class NetworkGameCharacter {
     public void move() {
         x += step;
         characterLabel.setLocation(x, y);
+        updateNamePosition();
     }
 
     public void updateAnimation() {
@@ -51,10 +63,26 @@ public class NetworkGameCharacter {
     public void setPosition(int newX) {
         this.x = newX;
         characterLabel.setLocation(x, y);
+        updateNamePosition();
+    }
+
+    public void updateNamePosition() {
+        if (nameLabel != null) {
+            int nameWidth = 100;
+            int nameHeight = 20;
+            int nameX = x - nameWidth - 10;
+            int nameY = y + (height - nameHeight) / 2;
+            nameLabel.setBounds(nameX, nameY, nameWidth, nameHeight);
+            System.out.println("Updated name position for " + playerName + ": " + nameX + ", " + nameY);
+        }
     }
 
     public JLabel getLabel() {
         return characterLabel;
+    }
+
+    public JLabel getNameLabel() {
+        return nameLabel;
     }
 
     public int getX() {

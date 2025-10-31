@@ -89,14 +89,14 @@ public class SimpleLobby extends JFrame {
             }
             
             long readyCount = players.stream().mapToLong(p -> p.isReady() ? 1 : 0).sum();
-            boolean canStart = players.size() >= 3 && readyCount == players.size();
+            boolean canStart = players.size() >= Config.PLAYER_READY_TO_START && readyCount == players.size();
             startButton.setEnabled(canStart);
             
             if (canStart) {
                 statusLabel.setText("Players: " + players.size() + " | Ready: " + readyCount + " | Ready to start!");
                 startButton.setBackground(java.awt.Color.GREEN);
             } else {
-                statusLabel.setText("Players: " + players.size() + " | Ready: " + readyCount + " | Need 3+ ready players to start");
+                statusLabel.setText("Players: " + players.size() + " | Ready: " + readyCount + " | Need "+ Config.PLAYER_READY_TO_START +"+ ready players to start");
                 startButton.setBackground(null);
             }
         });

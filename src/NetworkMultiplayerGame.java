@@ -78,12 +78,7 @@ public class NetworkMultiplayerGame extends JFrame {
         
         characters.put(playerId, character);
         lblBackground.add(character.getLabel());
-        
-        JLabel nameLabel = new JLabel(playerName);
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        nameLabel.setForeground(Color.WHITE);
-        nameLabel.setBounds(10, yPosition - 20, 200, 20);
-        lblBackground.add(nameLabel);
+        lblBackground.add(character.getNameLabel());
         
 
     }
@@ -136,6 +131,7 @@ public class NetworkMultiplayerGame extends JFrame {
                 SwingUtilities.invokeLater(() -> {
                     for (NetworkGameCharacter character : characters.values()) {
                         character.updateAnimation();
+                        character.updateNamePosition();
                     }
                 });
 
@@ -154,6 +150,7 @@ public class NetworkMultiplayerGame extends JFrame {
             myCharacter.move();
             
             if (gameClient != null) {
+                gameClient.sendStep(myPlayerId);
                 gameClient.sendMove(myPlayerId, myCharacter.getX());
             }
             
@@ -173,6 +170,25 @@ public class NetworkMultiplayerGame extends JFrame {
         if (character != null && playerId != myPlayerId) {
             character.setMoving(true);
             character.setPosition(newX);
+            character.updateNamePosition();
+            
+            Timer walkTimer = new Timer(200, e -> {
+                character.setMoving(false);
+                ((Timer) e.getSource()).stop();
+            });
+            walkTimer.setRepeats(false);
+            walkTimer.start();
+            
+            checkWinCondition(character);
+        }
+    }
+
+    public void movePlayer(int playerId) {
+        NetworkGameCharacter character = characters.get(playerId);
+        if (character != null && playerId != myPlayerId) {
+            character.setMoving(true);
+            character.move();
+            character.updateNamePosition();
             
             Timer walkTimer = new Timer(200, e -> {
                 character.setMoving(false);
